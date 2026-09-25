@@ -1293,6 +1293,17 @@ menu_uninstall() {
 }
 
 # ---------------- 更新主脚本（不动依赖） ----------------
+# 刷新安装目录里的 multi-account.sh（无论主脚本是否变化都应执行）
+update_multi_script() {
+    if curl -fsSL "$REPO_RAW/multi-account.sh" -o "$APP_DIR/multi-account.sh.new" 2>/dev/null; then
+        chmod +x "$APP_DIR/multi-account.sh.new"
+        mv -f "$APP_DIR/multi-account.sh.new" "$MULTI_SCRIPT"
+        ok "multi-account.sh 已更新"
+    else
+        warn "multi-account.sh 更新失败（保留旧版）"
+    fi
+}
+
 menu_update() {
     echo ""
     echo "${CYAN}=== 更新主脚本 ===${NC}"
@@ -1327,6 +1338,7 @@ menu_update() {
     if [ -n "$old_ver" ] && [ "$old_ver" = "$new_ver" ]; then
         ok "已是最新版本，无需更新"
         rm -f "$tmp"
+        update_multi_script
         return 0
     fi
 
@@ -1337,13 +1349,7 @@ menu_update() {
     ok "主脚本已更新"
 
     # 顺带更新多账号脚本（失败不影响主流程）
-    if curl -fsSL "$REPO_RAW/multi-account.sh" -o "$APP_DIR/multi-account.sh.new" 2>/dev/null; then
-        chmod +x "$APP_DIR/multi-account.sh.new"
-        mv -f "$APP_DIR/multi-account.sh.new" "$MULTI_SCRIPT"
-        ok "multi-account.sh 已更新"
-    else
-        warn "multi-account.sh 更新失败（保留旧版）"
-    fi
+    update_multi_script
 
     # 若在运行中，询问是否重启
     if pgrep -f "$RUN_PATTERN" >/dev/null 2>&1; then
