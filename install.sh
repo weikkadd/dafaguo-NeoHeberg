@@ -9,11 +9,11 @@
 # 6 卸载
 # 8 多账号管理
 # 0 退出
-# 用法：bash <(curl -fsSL https://raw.githubusercontent.com/weikkadd/dafaguo/main/install.sh)
+# 用法：bash <(curl -fsSL https://raw.githubusercontent.com/weikkadd/dafaguo-NeoHeberg/main/install.sh)
 # ============================================================
 set -euo pipefail
 
-REPO_RAW="https://raw.githubusercontent.com/weikkadd/dafaguo/main"
+REPO_RAW="https://raw.githubusercontent.com/weikkadd/dafaguo-NeoHeberg/main"
 NEOHEBERG_DIR="${NEOHEBERG_DIR:-/root/dafaguo}"
 APP_DIR="${NEOHEBERG_DIR:-/root/dafaguo}"
 VENV="$APP_DIR/venv"
