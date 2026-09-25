@@ -5,7 +5,15 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 MULTI_HOME=${DAFAGUO_MULTI_HOME:-"$HOME/.local/share/dafaguo-multi"}
 ACCOUNTS_DIR="$MULTI_HOME/accounts"
 SYSTEMD_DIR=${DAFAGUO_SYSTEMD_USER_DIR:-"$HOME/.config/systemd/user"}
-PYTHON_BIN=${DAFAGUO_PYTHON_BIN:-python3}
+# 启动主程序优先用安装目录里的 venv 解释器（ruyipage 装在 venv 中），
+# 仅当 venv 不存在时才退回系统 python3；DAFAGUO_PYTHON_BIN 可强制指定
+if [ -n "${DAFAGUO_PYTHON_BIN:-}" ]; then
+  PYTHON_BIN=$DAFAGUO_PYTHON_BIN
+elif [ -x "$SCRIPT_DIR/venv/bin/python" ]; then
+  PYTHON_BIN="$SCRIPT_DIR/venv/bin/python"
+else
+  PYTHON_BIN=python3
+fi
 APP="$SCRIPT_DIR/neoheberg.py"
 SING_BOX_BIN=${DAFAGUO_SING_BOX_BIN:-}
 SING_BOX_HOME="$MULTI_HOME/sing-box"
