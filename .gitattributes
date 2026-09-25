@@ -1,0 +1,5 @@
+# 本项目面向 Linux（bash / python3），统一使用 LF 换行
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
